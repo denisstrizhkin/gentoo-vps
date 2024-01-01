@@ -1,0 +1,6 @@
+#!/bin/sh
+
+nmcli connection delete wg
+nmcli connection import type wireguard file ./wg.conf
+nmcli connection modify wg connection.autoconnect yes
+nmcli connection modify wg connection.zone internal

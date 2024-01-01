@@ -1,0 +1,81 @@
+#!/usr/bin/python
+
+from pathlib import Path
+from sys import argv
+import subprocess
+
+privkey_file = Path('./privkey')
+pubkey_file = Path('./pubkey')
+wg_conf_conf = Path('./wg.conf')
+
+network_prefix = '10.100.0'
+endpoint_file = Path('./endpoint')
+
+
+def read_file(path: Path):
+    with open(path, 'r', encoding='utf8') as f:
+        return f.readlines()[0].strip()
+
+
+def write_file(path: Path, str: str):
+    with open(path, 'w', encoding='utf8') as f:
+        f.write(str + '\n')
+
+
+def append_file(path: Path, str: str):
+    with open(path, 'a', encoding='utf8') as f:
+        f.write(str + '\n')
+
+
+privkey = read_file(privkey_file)
+pubkey = read_file(pubkey_file)
+endpoint = read_file(endpoint_file)
+
+user = argv[1].strip()
+code = argv[2].strip()
+
+print(f'user: {user}')
+print(f'code: {code}')
+
+user_dir = Path(user)
+if not user_dir.exists():
+    user_dir.mkdir(mode=0o700)
+
+result = subprocess.run(['wg', 'genkey'],
+                        capture_output=True, text=True)
+user_privkey = result.stdout.strip()
+
+result = subprocess.run(['wg', 'pubkey'], input=user_privkey,
+                        capture_output=True, text=True)
+user_pubkey = result.stdout.strip()
+
+user_conf = f"""
+[Interface]
+PrivateKey = {user_privkey}
+Address = {network_prefix}.{code}/24
+DNS = 8.8.8.8
+
+[Peer]
+PublicKey = {pubkey}
+AllowedIPs = 0.0.0.0/0
+Endpoint = {endpoint}
+"""
+
+user_peer = f"""
+# {user}
+[Peer]
+PublicKey = {user_pubkey}
+AllowedIPs = {network_prefix}.{code}/32
+"""
+
+print(user_conf)
+print(user_peer)
+
+user_privkey_file = user_dir / 'privkey'
+user_pubkey_file = user_dir / 'pubkey'
+user_conf_file = user_dir / f'{user}.conf'
+
+write_file(user_privkey_file, user_privkey)
+write_file(user_pubkey_file, user_pubkey)
+write_file(user_conf_file, user_conf)
+append_file(wg_conf_conf, user_peer)

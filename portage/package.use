@@ -1,0 +1,19 @@
+# Global
+*/* -iconv -nls -man -doc -gtk-doc
+*/* firewalld nftables -iptables
+*/* lto
+
+# Modern top look
+sys-process/procps modern-top
+
+# Firmware
+sys-kernel/linux-firmware compress-zstd
+
+# NetworkManager
+net-misc/networkmanager -lto -wifi -wext -ppp -modemmanager
+
+# GRUB
+sys-boot/grub -* GRUB_PlATFORMS: -* pc
+
+# FirewallD
+net-firewall/nftables python json

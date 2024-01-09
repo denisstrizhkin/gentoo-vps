@@ -1,0 +1,6 @@
+{{- $system_type := promptStringOnce . "system_type" "System type" -}}
+
+destDir = "/etc"
+
+[data]
+type = {{ $system_type | quote }}

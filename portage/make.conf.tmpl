@@ -10,10 +10,6 @@ LC_MESSAGES=C.utf8
 
 ACCEPT_LICENSE="-* @FREE"
 
-# No multilib
-MULTILIB_ABIS="amd64"
-USE_EXPAND_HIDDEN="ABI_X86"
-
 {{- if eq .type "binhost" }}
 
 MAKEOPTS="-j8"

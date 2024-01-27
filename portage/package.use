@@ -3,6 +3,9 @@
 */* firewalld nftables -iptables
 */* lto
 
+# install kernel
+sys-kernel/installkernel dracut grub
+
 # Modern top look
 sys-process/procps modern-top
 
@@ -10,7 +13,7 @@ sys-process/procps modern-top
 sys-kernel/linux-firmware compress-zstd
 
 # NetworkManager
-net-misc/networkmanager -lto -wifi -wext -ppp -modemmanager
+net-misc/networkmanager -wifi -wext -ppp -modemmanager
 
 # GRUB
 sys-boot/grub -* GRUB_PlATFORMS: -* pc

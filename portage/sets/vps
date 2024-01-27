@@ -17,6 +17,7 @@ dev-lang/rust-bin
 dev-vcs/git
 net-firewall/firewalld
 net-misc/networkmanager
+net-proxy/shadowsocks-libev
 net-vpn/i2pd
 net-vpn/tor
 net-vpn/wireguard-tools

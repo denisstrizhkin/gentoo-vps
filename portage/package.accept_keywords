@@ -6,3 +6,8 @@ app-misc/fastfetch
 dev-libs/yyjson
 
 app-admin/chezmoi
+
+net-proxy/shadowsocks-libev
+net-libs/libbloom
+net-libs/libcork
+net-libs/libcorkipset
